@@ -7,13 +7,15 @@
     <title>Document</title>
     
     <style>
-    table {
+    table, div {
         width: 500px;
         text-align: center;
     }
     td {
         border: 1px solid black;
+        width: 500px;
         height: 50px;
+        text-align: center;
     }       
     </style>    
 </head>
@@ -54,8 +56,7 @@
     function tableCreate(){
     let body = document.body,
         tbl  = document.createElement('table');
-        
-    /*tbl.style.border = '1px solid black';*/
+    
     for(let i = 0; i < title.length; i++) {
         let tr = tbl.insertRow();
         let td = tr.insertCell();
@@ -69,10 +70,18 @@
             switch (text){
                 case title[i]:
                     s.firstChild.nodeValue = posts[i];
+                    let post  = document.createElement('div');
+                    post.setAttribute('id', 'ddd');
+                    /*document.getElementById("ddd").textContent = "Это — просто текст";
+                    */
+                    s.textContent = "Aaaaaaaa";
+                    /*post.insertBefore(s, post.nextSibling);*/
                     text =  posts[i];
                     break;
                 case posts[i]:
                     s.firstChild.nodeValue = title[i];
+                    post  = document.createElement('div');
+                    post.innerHTML = "posts[i]";
                     text =  title[i];
                     break;
                 default:
@@ -86,8 +95,18 @@
     }
     tableCreate();
      
-        
-    
+    function divCreate(){
+        let body = document.body;
+            for(let i = 0; i < posts.length; i++) {
+                div = document.createElement("div");
+                body.appendChild(div);      
+                div.appendChild(document.createTextNode(posts[i]));
+                div.setAttribute('id', 'd'+i);
+                insert = document.getElementById('t'+ (i+1));
+                div.insertBefore(insert, div.nextSibling)                   
+            }
+    }        
+    divCreate();
 /*
 function chpok(id){
     elem = document.getElementById(id); //находим блок div по его id, который передали в функцию
