@@ -21,10 +21,6 @@
 </head>
 <body>
 
-    
-
-
- 
 </body>
 <script>  
     let title = [ 
@@ -56,7 +52,6 @@
     function tableCreate() {
         let body = document.body,
             tbl  = document.createElement( 'table' );
-    
         for( let i = 0; i < title.length; i++ ) {
             let tr = tbl.insertRow();
             let td = tr.insertCell();
@@ -72,40 +67,24 @@
         tableCreate();
     
     function clickTitle(number){     
-        let line = document.getElementById('t'+ number);
         let divPost = document.getElementById('d'+ number);
-        line.insertBefore(divPost, line.nextSibling);
         (divPost.style.display=='none') ?    
         divPost.style.display='' : 
         divPost.style.display='none';                                    
     }
 
     function divCreate(){
-        let body = document.body;
-            for(let i = 0; i < posts.length; i++) {
-                let dv = document.createElement("div");
-                body.appendChild( dv );      
-                dv.appendChild(document.createTextNode( posts[i] ));
-                dv.setAttribute('id', 'd'+ i);
-                elem = document.getElementById('d'+ i);
-                elem.style.display='none';        
-            }
+        for(let i = 0; i < posts.length; i++) {
+            let line = document.getElementById('t'+ i); 
+            let dv = document.createElement("div");
+            line.appendChild( dv );      
+            dv.appendChild(document.createTextNode( posts[i] ));
+            dv.setAttribute('id', 'd'+ i);
+            elem = document.getElementById('d'+ i);
+            elem.style.display='none';        
+        }
     }        
     divCreate();
-
-    function pCreate(){        
-            for(let i = 0; i < posts.length; i++) {
-                let getTr = document.getElementById('t'+ i); 
-                let pCr = document.createElement("p");
-                getTr.appendChild( pCr );
-                pCr.appendChild(document.createTextNode( '123' ));
-                pCr.setAttribute('id', 'p'+ i);
-               /* elem = document.getElementById('p'+ i);
-                elem.style.display='none';   */     
-            }
-    }        
-    pCreate();
-
 
 </script> 
 </html>
