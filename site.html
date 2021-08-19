@@ -22,7 +22,78 @@
 <body>
 
 </body>
-<script>  
+<script>
+    fetch('https://diesewelt.online/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: `{ posts { 
+        nodes {
+        id
+        title
+        date
+            } } }` }),
+    })
+    .then(res => res.json())
+    .then(res => console.log(res.data));
+    
+    fetch('https://diesewelt.online/graphql', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        query: `
+            {
+    posts {
+        nodes {
+        id
+        title
+        date
+            }
+        }
+    }
+        `,
+        variables: {
+        now: new Date().toISOString(),
+        },
+    }),
+    })
+    .then((res) => res.json())
+    .then((result) => console.log(result));
+
+
+
+
+
+/*
+
+    fetch('https://www.learnwithjason.dev/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    query: `
+        query GetLearnWithJasonEpisodes($now: DateTime!) {
+          allEpisode(limit: 10, sort: {date: ASC}, where: {date: {gte: $now}}) {
+            date
+            title
+            guest {
+              name
+              twitter
+            }
+            description
+          }
+        }
+      `,
+    variables: {
+      now: new Date().toISOString(),
+    },
+  }),
+})
+  .then((res) => res.json())
+  .then((result) => console.log(result));*/
+
     let title = [ 
        'Первый пост',
        'Второй пост',
