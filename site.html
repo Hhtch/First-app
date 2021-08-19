@@ -53,71 +53,45 @@
         'Подробное описание Десятый пост',
     ];
 
-    function tableCreate(){
-    let body = document.body,
-        tbl  = document.createElement('table');
+    function tableCreate() {
+        let body = document.body,
+            tbl  = document.createElement( 'table' );
     
-    for(let i = 0; i < title.length; i++) {
-        let tr = tbl.insertRow();
-        let td = tr.insertCell();
-        let text = title[i];
-        td.appendChild(document.createTextNode(title[i]));
-        td.setAttribute('id', 't'+i);
-        td.addEventListener
-            ("click", 
-            () => {
-            let  s = document.getElementById('t'+ i);  
-            switch (text){
-                case title[i]:
-                    s.firstChild.nodeValue = posts[i];
-                    let post  = document.createElement('div');
-                    post.setAttribute('id', 'ddd');
-                    /*document.getElementById("ddd").textContent = "Это — просто текст";
-                    */
-                    s.textContent = "Aaaaaaaa";
-                    /*post.insertBefore(s, post.nextSibling);*/
-                    text =  posts[i];
-                    break;
-                case posts[i]:
-                    s.firstChild.nodeValue = title[i];
-                    post  = document.createElement('div');
-                    post.innerHTML = "posts[i]";
-                    text =  title[i];
-                    break;
-                default:
-                    alert( "Нет таких значений" );
-                }    
-            },
-            false);       
+        for( let i = 0; i < title.length; i++ ) {
+            let tr = tbl.insertRow();
+            let td = tr.insertCell();
+        
+            td.appendChild(document.createTextNode( title[i] ));
+            td.setAttribute( 'id', 't'+i );
+            td.addEventListener
+                ("click", () => {clickTitle( i )}, false);       
+        }
+        body.appendChild(tbl);
+        }
+        
+        tableCreate();
+    
+    function clickTitle(number){     
+        let line = document.getElementById('t'+ number);
+        let divPost = document.getElementById('d'+ number);
+        line.insertBefore(divPost, line.nextSibling);
+        (divPost.style.display=='none') ?    
+        divPost.style.display='' : 
+        divPost.style.display='none';                                    
     }
 
-     body.appendChild(tbl);
-    }
-    tableCreate();
-     
     function divCreate(){
         let body = document.body;
             for(let i = 0; i < posts.length; i++) {
-                div = document.createElement("div");
-                body.appendChild(div);      
-                div.appendChild(document.createTextNode(posts[i]));
-                div.setAttribute('id', 'd'+i);
-                insert = document.getElementById('t'+ (i+1));
-                div.insertBefore(insert, div.nextSibling)                   
+                let dv = document.createElement("div");
+                body.appendChild( dv );      
+                dv.appendChild(document.createTextNode( posts[i] ));
+                dv.setAttribute('id', 'd'+ i);
+                elem = document.getElementById('d'+ i);
+                elem.style.display='none';        
             }
     }        
     divCreate();
-/*
-function chpok(id){
-    elem = document.getElementById(id); //находим блок div по его id, который передали в функцию
-    state = elem.style.display; //смотрим, включен ли сейчас элемент
-    if (state =='') elem.style.display='none'; //если включен, то выключаем
-    else elem.style.display=''; //иначе - включаем
-}
-<button onclick="chpok('text')">TEST</button>
-<div id="text">
-    My Text
-</div>*/
 
 </script> 
 </html>
