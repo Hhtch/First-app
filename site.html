@@ -93,5 +93,19 @@
     }        
     divCreate();
 
+    function pCreate(){        
+            for(let i = 0; i < posts.length; i++) {
+                let getTr = document.getElementById('t'+ i); 
+                let pCr = document.createElement("p");
+                getTr.appendChild( pCr );
+                pCr.appendChild(document.createTextNode( '123' ));
+                pCr.setAttribute('id', 'p'+ i);
+               /* elem = document.getElementById('p'+ i);
+                elem.style.display='none';   */     
+            }
+    }        
+    pCreate();
+
+
 </script> 
 </html>
