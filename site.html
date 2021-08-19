@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+    table {
+        width: 500px;
+        text-align: center;
+    }
+    td {
+        border: 1px solid black;
+        height: 50px;
+    }       
+    </style>    
+</head>
+<body>
+
+    
+
+
+ 
+</body>
+<script>  
+    let title = [ 
+       'Первый пост',
+       'Второй пост',
+       'Третий пост',
+       'Четвертый пост',
+       'Пятый пост',
+       'Шестой пост',
+       'Седьмой пост',
+       'Восьмой пост',
+       'Девятый пост',                    
+       'Десятый пост',
+    ];
+
+    let posts = [
+        'Подробное описание Первый пост',
+        'Подробное описание Второй пост',
+        'Подробное описание Третий пост',
+        'Подробное описание Четвертый пост',
+        'Подробное описание Пятый пост',
+        'Подробное описание Шестой пост',
+        'Подробное описание Седьмой пост',
+        'Подробное описание Восьмой пост',
+        'Подробное описание Девятый пост',                    
+        'Подробное описание Десятый пост',
+    ];
+
+    function tableCreate(){
+    let body = document.body,
+        tbl  = document.createElement('table');
+        
+    /*tbl.style.border = '1px solid black';*/
+    for(let i = 0; i < title.length; i++) {
+        let tr = tbl.insertRow();
+        let td = tr.insertCell();
+        let text = title[i];
+        td.appendChild(document.createTextNode(title[i]));
+        td.setAttribute('id', 't'+i);
+        td.addEventListener
+            ("click", 
+            () => {
+            let  s = document.getElementById('t'+ i);  
+            switch (text){
+                case title[i]:
+                    s.firstChild.nodeValue = posts[i];
+                    text =  posts[i];
+                    break;
+                case posts[i]:
+                    s.firstChild.nodeValue = title[i];
+                    text =  title[i];
+                    break;
+                default:
+                    alert( "Нет таких значений" );
+                }    
+            },
+            false);       
+    }
+
+     body.appendChild(tbl);
+    }
+    tableCreate();
+     
+        
+    
+/*
+function chpok(id){
+    elem = document.getElementById(id); //находим блок div по его id, который передали в функцию
+    state = elem.style.display; //смотрим, включен ли сейчас элемент
+    if (state =='') elem.style.display='none'; //если включен, то выключаем
+    else elem.style.display=''; //иначе - включаем
+}
+<button onclick="chpok('text')">TEST</button>
+<div id="text">
+    My Text
+</div>*/
+
+</script> 
+</html>
