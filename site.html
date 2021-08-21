@@ -22,7 +22,7 @@
 <body>
 
 </body>
-<script>
+<script>/*
 let body = document.body;
 let listItem = document.createElement('li');
 
@@ -52,14 +52,32 @@ let listItem = document.createElement('li');
         body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
 
-    return await response.json(); // parses JSON response into native JavaScript objects
+    return await response.json()
+     // parses JSON response into native JavaScript objects
     }
     postData();
-    let dannie = postData();
-  alert(dannie[1]);
-    listItem.appendChild(document.createElement('strong')).textContent = dannie;
+    const json = postData();
+    const pos = JSON.parse(json);
+         pos.then(
+    console.log(pos))
+    //dannie = JSON.parse(postData());
+    
+    alert(pos); 
+   /* dannie.then (alert(dannie.posts.nodes[0].id));*/
 
+/*pos.then(
+    listItem.appendChild(document.createElement('strong')).textContent = pos.data.posts.nodes[0].id
+        )   
     body.appendChild(listItem);
+
+  
+
+    console.log(pos.title);
+// expected output: 42
+
+    console.log(pos.id);
+// expected output: true
+*/
 
    /* let user = {
   name: 'Dima'
@@ -148,7 +166,7 @@ let result = await response.json();*/
   /*  .then(resp => {return resp.text()})
    .then(resBody => {razmetka = resBody})*/
 
-/*   fetch('https://diesewelt.online/graphql', {
+   const first = fetch('https://diesewelt.online/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
@@ -160,10 +178,44 @@ let result = await response.json();*/
                     date
             }   }   }` }),
     })    
-    .then(res => {dannie = Response.json()})      
+    .then((res) => res.json())
+  //  .then((res) => console.log(res.data.posts.nodes[0]))
+ // .then({const res = res.data.posts.nodes[0] })
+  .then(res => {
+    for(let i = 0; i < res.data.posts.nodes.length; i++) {
+        let listItem = document.createElement('li');
+        listItem.innerHTML = '<strong>' + res.data.posts.nodes[i].id + '</strong>';
+        listItem.innerHTML +=' can be found in ' + res.data.posts.nodes[i].title + '.';
+        listItem.innerHTML +=' Cost: <strong>£' + res.data.posts.nodes[i].date + '</strong>';
+        document.body.appendChild(listItem);
+      }
+ /*       for (const i of res.data.posts.nodes[i]) {
+        let listItem = document.createElement('li');
+        listItem.appendChild(
+            document.createElement('strong')
+        ).textContent = 
+        listItem.append(
+            ` can be found in ${
+                data.posts.nodes[i].title
+                        }. Cost: `
+        );
+        listItem.appendChild(
+            document.createElement('strong')
+        ).textContent = `£${data.posts.nodes[i].date}`;
+        myList.appendChild(listItem);
+        }*/
+    })
+    first;
+
     
-    alert(dannie);*/
-    
+
+
+
+
+  //  alert(first.then(data.posts.nodes[0] ));
+ //   first.then(console.log(date.posts.nodes[1].id ));
+  //  alert(JSON.stringify(first, null, 4));
+//alert(JSON.parse(JSON.stringify(first.data.posts.nodes[1].id.title.date)));
 
     /*const myList = document.querySelector('ul');
     const myRequest = new Request('products.json');
@@ -218,7 +270,7 @@ let result = await response.json();*/
   .then((res) => res.json())
   .then((result) => console.log(result));*/
 
-    let title = [ 
+ /*   let title = [ 
        'Первый пост',
        'Второй пост',
        'Третий пост',
@@ -231,7 +283,7 @@ let result = await response.json();*/
        'Десятый пост',
     ];
 
-    let posts = [
+    let posts1 = [
         'Подробное описание Первый пост',
         'Подробное описание Второй пост',
         'Подробное описание Третий пост',
@@ -279,7 +331,7 @@ let result = await response.json();*/
             elem.style.display='none';        
         }
     }        
-    divCreate();
+    divCreate();*/
 
 </script> 
 </html>
