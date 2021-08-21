@@ -23,51 +23,175 @@
 
 </body>
 <script>
+let body = document.body;
+let listItem = document.createElement('li');
+
+     // Пример отправки POST запроса:
+   async function postData(url = 'https://diesewelt.online/graphql', data = {
+        query: `
+            { posts { 
+                nodes {
+                    id
+                    title
+                    date
+            }   }   }`    
+    }) {
+     // Default options are marked with *
+
+    const response = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+
+    return await response.json(); // parses JSON response into native JavaScript objects
+    }
+    postData();
+    let dannie = postData();
+  alert(dannie[1]);
+    listItem.appendChild(document.createElement('strong')).textContent = dannie;
+
+    body.appendChild(listItem);
+
+   /* let user = {
+  name: 'Dima'
+};
+
+let response = await fetch('http://example.com/api/user', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify(user)
+});
+
+let result = await response.json();*/
+    
+
+   
+   
+
+    
+
+
+   /*const myRequest = new Request('products.json');
+
     fetch('https://diesewelt.online/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query: `{ posts { 
-        nodes {
-        id
-        title
-        date
-            } } }` }),
+    body: JSON.stringify({ 
+        query: `
+            { posts { 
+                nodes {
+                    id
+                    title
+                    date
+            }   }   }` }),
     })
     .then(res => res.json())
-    .then(res => console.log(res.data));
-    
-    fetch('https://diesewelt.online/graphql', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        query: `
-            {
-    posts {
-        nodes {
-        id
-        title
-        date
-            }
-        }
+    .then(res => {
+        for(let i = 0; i < posts.length; i++) {
+            alert(res[i]);
+            u = res.json();
+            alert(u);
+            let listItem = document.createElement('li');
+            listItem.appendChild(
+            document.createElement('strong')
+            ).textContent = posts.id;
+            listItem.append(
+            ` Вот он тайтл ${
+            res.title
+            }. Cost: `
+            );
+            listItem.appendChild(
+            document.createElement('strong')
+            ).textContent = `£${posts.date}`;              
+        }      
     }
-        `,
-        variables: {
-        now: new Date().toISOString(),
-        },
-    }),
+    )
+    .catch(console.error);*/
+
+
+ 
+   /* const myList = document.querySelector('ul');
+    const myRequest = new Request('products.json');
+
+    fetch(myRequest)
+    .then(response => response.json())
+    .then(data => {
+        for (const product of data.products) {
+        let listItem = document.createElement('li');
+        listItem.appendChild(
+            document.createElement('strong')
+        ).textContent = product.Name;
+        listItem.append(
+            ` can be found in ${
+            product.Location
+            }. Cost: `
+        );
+        listItem.appendChild(
+            document.createElement('strong')
+        ).textContent = `£${product.Price}`;
+        myList.appendChild(listItem);
+        }
     })
-    .then((res) => res.json())
-    .then((result) => console.log(result));
+    .catch(console.error);*/
+  
+  /*  .then(resp => {return resp.text()})
+   .then(resBody => {razmetka = resBody})*/
+
+/*   fetch('https://diesewelt.online/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+        query: `
+            { posts { 
+                nodes {
+                    id
+                    title
+                    date
+            }   }   }` }),
+    })    
+    .then(res => {dannie = Response.json()})      
+    
+    alert(dannie);*/
+    
+
+    /*const myList = document.querySelector('ul');
+    const myRequest = new Request('products.json');
+
+    fetch(myRequest)
+    .then(response => response.json())
+    .then(data => {
+        for (const product of data.products) {
+        let listItem = document.createElement('li');
+        listItem.appendChild(
+            document.createElement('strong')
+        ).textContent = product.Name;
+        listItem.append(
+            ` can be found in ${
+            product.Location
+            }. Cost: `
+        );
+        listItem.appendChild(
+            document.createElement('strong')
+        ).textContent = `£${product.Price}`;
+        myList.appendChild(listItem);
+        }
+    })
+    .catch(console.error);*/
 
 
 
-
-
-/*
-
-    fetch('https://www.learnwithjason.dev/graphql', {
+/*fetch('https://www.learnwithjason.dev/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
