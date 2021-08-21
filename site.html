@@ -22,87 +22,9 @@
 <body>
 
 </body>
-<script>/*
-let body = document.body;
-let listItem = document.createElement('li');
+<script>
 
-     // Пример отправки POST запроса:
-   async function postData(url = 'https://diesewelt.online/graphql', data = {
-        query: `
-            { posts { 
-                nodes {
-                    id
-                    title
-                    date
-            }   }   }`    
-    }) {
-     // Default options are marked with *
-
-    const response = await fetch(url, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-    });
-
-    return await response.json()
-     // parses JSON response into native JavaScript objects
-    }
-    postData();
-    const json = postData();
-    const pos = JSON.parse(json);
-         pos.then(
-    console.log(pos))
-    //dannie = JSON.parse(postData());
-    
-    alert(pos); 
-   /* dannie.then (alert(dannie.posts.nodes[0].id));*/
-
-/*pos.then(
-    listItem.appendChild(document.createElement('strong')).textContent = pos.data.posts.nodes[0].id
-        )   
-    body.appendChild(listItem);
-
-  
-
-    console.log(pos.title);
-// expected output: 42
-
-    console.log(pos.id);
-// expected output: true
-*/
-
-   /* let user = {
-  name: 'Dima'
-};
-
-let response = await fetch('http://example.com/api/user', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
-  body: JSON.stringify(user)
-});
-
-let result = await response.json();*/
-    
-
-   
-   
-
-    
-
-
-   /*const myRequest = new Request('products.json');
-
-    fetch('https://diesewelt.online/graphql', {
+   const firstFetch = fetch('https://diesewelt.online/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
@@ -114,161 +36,46 @@ let result = await response.json();*/
                     date
             }   }   }` }),
     })
-    .then(res => res.json())
-    .then(res => {
-        for(let i = 0; i < posts.length; i++) {
-            alert(res[i]);
-            u = res.json();
-            alert(u);
-            let listItem = document.createElement('li');
-            listItem.appendChild(
-            document.createElement('strong')
-            ).textContent = posts.id;
-            listItem.append(
-            ` Вот он тайтл ${
-            res.title
-            }. Cost: `
-            );
-            listItem.appendChild(
-            document.createElement('strong')
-            ).textContent = `£${posts.date}`;              
-        }      
-    }
-    )
-    .catch(console.error);*/
-
-
- 
-   /* const myList = document.querySelector('ul');
-    const myRequest = new Request('products.json');
-
-    fetch(myRequest)
-    .then(response => response.json())
-    .then(data => {
-        for (const product of data.products) {
-        let listItem = document.createElement('li');
-        listItem.appendChild(
-            document.createElement('strong')
-        ).textContent = product.Name;
-        listItem.append(
-            ` can be found in ${
-            product.Location
-            }. Cost: `
-        );
-        listItem.appendChild(
-            document.createElement('strong')
-        ).textContent = `£${product.Price}`;
-        myList.appendChild(listItem);
-        }
-    })
-    .catch(console.error);*/
-  
-  /*  .then(resp => {return resp.text()})
-   .then(resBody => {razmetka = resBody})*/
-
-   const first = fetch('https://diesewelt.online/graphql', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-        query: `
-            { posts { 
-                nodes {
-                    id
-                    title
-                    date
-            }   }   }` }),
-    })    
+    const title = firstFetch    
     .then((res) => res.json())
-  //  .then((res) => console.log(res.data.posts.nodes[0]))
- // .then({const res = res.data.posts.nodes[0] })
-  .then(res => {
-    for(let i = 0; i < res.data.posts.nodes.length; i++) {
-        let listItem = document.createElement('li');
-        listItem.innerHTML = '<strong>' + res.data.posts.nodes[i].id + '</strong>';
-        listItem.innerHTML +=' can be found in ' + res.data.posts.nodes[i].title + '.';
-        listItem.innerHTML +=' Cost: <strong>£' + res.data.posts.nodes[i].date + '</strong>';
-        document.body.appendChild(listItem);
-      }
- /*       for (const i of res.data.posts.nodes[i]) {
-        let listItem = document.createElement('li');
-        listItem.appendChild(
-            document.createElement('strong')
-        ).textContent = 
-        listItem.append(
-            ` can be found in ${
-                data.posts.nodes[i].title
-                        }. Cost: `
-        );
-        listItem.appendChild(
-            document.createElement('strong')
-        ).textContent = `£${data.posts.nodes[i].date}`;
-        myList.appendChild(listItem);
-        }*/
+    .then(res => {
+        for(let i = 0; i < res.data.posts.nodes.length; i++) {
+            let title = res.data.posts.nodes[i].title;
+            return title[i];
+        }
     })
-    first;
-
     
+    const posts = firstFetch    
+    .then((res2) => res2.json())
+    .then(res2 => {    
+        for(let i = 0; i < res2.data.posts.nodes.length; i++) {
+            let posts = res2.data.posts.nodes[i].id 
+            + ' ' 
+            + res2.data.posts.nodes[i].date;
+            return posts[i];
+        }
+    })
 
+    /*
 
+        let posts = res.data.posts.nodes[i].id 
+            + ' ' 
+            + res.data.posts.nodes[i].date;
 
-
-  //  alert(first.then(data.posts.nodes[0] ));
- //   first.then(console.log(date.posts.nodes[1].id ));
-  //  alert(JSON.stringify(first, null, 4));
-//alert(JSON.parse(JSON.stringify(first.data.posts.nodes[1].id.title.date)));
-
-    /*const myList = document.querySelector('ul');
-    const myRequest = new Request('products.json');
-
-    fetch(myRequest)
-    .then(response => response.json())
-    .then(data => {
-        for (const product of data.products) {
         let listItem = document.createElement('li');
         listItem.appendChild(
             document.createElement('strong')
-        ).textContent = product.Name;
-        listItem.append(
-            ` can be found in ${
-            product.Location
-            }. Cost: `
-        );
+        ).textContent =  `${res.data.posts.nodes[i].id} `;
         listItem.appendChild(
             document.createElement('strong')
-        ).textContent = `£${product.Price}`;
-        myList.appendChild(listItem);
-        }
-    })
-    .catch(console.error);*/
-
-
-
-/*fetch('https://www.learnwithjason.dev/graphql', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    query: `
-        query GetLearnWithJasonEpisodes($now: DateTime!) {
-          allEpisode(limit: 10, sort: {date: ASC}, where: {date: {gte: $now}}) {
-            date
-            title
-            guest {
-              name
-              twitter
-            }
-            description
-          }
-        }
-      `,
-    variables: {
-      now: new Date().toISOString(),
-    },
-  }),
-})
-  .then((res) => res.json())
-  .then((result) => console.log(result));*/
+        ).textContent = res.data.posts.nodes[i].title;
+        listItem.appendChild(
+            document.createElement('strong')
+        ).textContent = res.data.posts.nodes[i].date;
+        document.body.appendChild(listItem);
+     posts;       
+      */
+    
 
  /*   let title = [ 
        'Первый пост',
@@ -283,7 +90,7 @@ let result = await response.json();*/
        'Десятый пост',
     ];
 
-    let posts1 = [
+    let posts = [
         'Подробное описание Первый пост',
         'Подробное описание Второй пост',
         'Подробное описание Третий пост',
@@ -294,7 +101,7 @@ let result = await response.json();*/
         'Подробное описание Восьмой пост',
         'Подробное описание Девятый пост',                    
         'Подробное описание Десятый пост',
-    ];
+    ];*/
 
     function tableCreate() {
         let body = document.body,
@@ -331,7 +138,7 @@ let result = await response.json();*/
             elem.style.display='none';        
         }
     }        
-    divCreate();*/
+    divCreate();
 
 </script> 
 </html>
