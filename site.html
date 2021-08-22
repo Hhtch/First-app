@@ -23,8 +23,8 @@
 
 </body>
 <script>
-
-   const firstFetch = fetch('https://diesewelt.online/graphql', {
+// Первый вариант через промисы.
+	const firstFetch = fetch('https://diesewelt.online/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
@@ -35,110 +35,57 @@
                     title
                     date
             }   }   }` }),
-    })
-    const title = firstFetch    
-    .then((res) => res.json())
-    .then(res => {
-        for(let i = 0; i < res.data.posts.nodes.length; i++) {
-            let title = res.data.posts.nodes[i].title;
-            return title[i];
-        }
-    })
-    
-    const posts = firstFetch    
-    .then((res2) => res2.json())
-    .then(res2 => {    
-        for(let i = 0; i < res2.data.posts.nodes.length; i++) {
-            let posts = res2.data.posts.nodes[i].id 
-            + ' ' 
-            + res2.data.posts.nodes[i].date;
-            return posts[i];
-        }
-    })
+    }) 
+   
+    firstFetch    
+		.then((res) => res.json())
+		.then(res => {
+			const title = [];
+			const posts = [];
+			for(let i = 0; i < res.data.posts.nodes.length; i++) {
+				title.push(res.data.posts.nodes[i].title);
+				let post = "Id поста: " + res.data.posts.nodes[i].id 
+				+ ' ' 
+				+ "Дата создания: " + res.data.posts.nodes[i].date;			
+				posts.push(post)
+			}          	
+		               		        
+            function tableCreate() {
+                let body = document.body,
+                tbl  = document.createElement( 'table' );
+                    for( let i = 0; i < title.length; i++ ) {
+                        let tr = tbl.insertRow();
+                        let td = tr.insertCell();
+                    
+                        td.appendChild(document.createTextNode( title[i] ));
+                        td.setAttribute( 'id', 't'+i );
+                        td.addEventListener
+                            ("click", () => {clickTitle( i )}, false);       
+                    }
+            body.appendChild(tbl);
+            }
+            tableCreate();
 
-    /*
+            function clickTitle(number){     
+                let divPost = document.getElementById('d'+ number);
+                (divPost.style.display=='none') ?    
+                divPost.style.display='' : 
+                divPost.style.display='none';                                    
+            }
 
-        let posts = res.data.posts.nodes[i].id 
-            + ' ' 
-            + res.data.posts.nodes[i].date;
-
-        let listItem = document.createElement('li');
-        listItem.appendChild(
-            document.createElement('strong')
-        ).textContent =  `${res.data.posts.nodes[i].id} `;
-        listItem.appendChild(
-            document.createElement('strong')
-        ).textContent = res.data.posts.nodes[i].title;
-        listItem.appendChild(
-            document.createElement('strong')
-        ).textContent = res.data.posts.nodes[i].date;
-        document.body.appendChild(listItem);
-     posts;       
-      */
-    
-
- /*   let title = [ 
-       'Первый пост',
-       'Второй пост',
-       'Третий пост',
-       'Четвертый пост',
-       'Пятый пост',
-       'Шестой пост',
-       'Седьмой пост',
-       'Восьмой пост',
-       'Девятый пост',                    
-       'Десятый пост',
-    ];
-
-    let posts = [
-        'Подробное описание Первый пост',
-        'Подробное описание Второй пост',
-        'Подробное описание Третий пост',
-        'Подробное описание Четвертый пост',
-        'Подробное описание Пятый пост',
-        'Подробное описание Шестой пост',
-        'Подробное описание Седьмой пост',
-        'Подробное описание Восьмой пост',
-        'Подробное описание Девятый пост',                    
-        'Подробное описание Десятый пост',
-    ];*/
-
-    function tableCreate() {
-        let body = document.body,
-            tbl  = document.createElement( 'table' );
-        for( let i = 0; i < title.length; i++ ) {
-            let tr = tbl.insertRow();
-            let td = tr.insertCell();
-        
-            td.appendChild(document.createTextNode( title[i] ));
-            td.setAttribute( 'id', 't'+i );
-            td.addEventListener
-                ("click", () => {clickTitle( i )}, false);       
-        }
-        body.appendChild(tbl);
-        }
-        
-        tableCreate();
-    
-    function clickTitle(number){     
-        let divPost = document.getElementById('d'+ number);
-        (divPost.style.display=='none') ?    
-        divPost.style.display='' : 
-        divPost.style.display='none';                                    
-    }
-
-    function divCreate(){
-        for(let i = 0; i < posts.length; i++) {
-            let line = document.getElementById('t'+ i); 
-            let dv = document.createElement("div");
-            line.appendChild( dv );      
-            dv.appendChild(document.createTextNode( posts[i] ));
-            dv.setAttribute('id', 'd'+ i);
-            elem = document.getElementById('d'+ i);
-            elem.style.display='none';        
-        }
-    }        
-    divCreate();
+            function divCreate(){
+            for(let i = 0; i < posts.length; i++) {
+                let line = document.getElementById('t'+ i); 
+                let dv = document.createElement("div");
+                line.appendChild( dv );      
+                dv.appendChild(document.createTextNode( posts[i] ));
+                dv.setAttribute('id', 'd'+ i);
+                elem = document.getElementById('d'+ i);
+                elem.style.display='none';        
+                }
+            }            
+            divCreate();
+        })
 
 </script> 
 </html>
