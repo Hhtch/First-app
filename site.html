@@ -22,7 +22,7 @@
 <body>
 
 </body>
-<script>
+<script>/*
 // Первый вариант через промисы.
 	const firstFetch = fetch('https://diesewelt.online/graphql', {
     method: 'POST',
@@ -85,9 +85,99 @@
                 }
             }            
             divCreate();
-        })
+        })*/
+
+ // --------- ВТОРОЙ СПОСОБ -----------------       
+ // Пример отправки POST запроса:
+async function postData(url = 'https://diesewelt.online/graphql', data = {
+    query: `
+        { posts(where: {status: PUBLISH, dateQuery: {year: 2021}}, first: 1000) {
+            nodes {
+                id
+                title
+                date
+        }   }   }`    
+    }) {
+    // Default options are marked with *
+
+    const response = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });  
+    return await response.json();               
+}
+
+async function listTitle() {
+    const run = await postData();
+    const title = [];   
+    for(let i = 0; i < run.data.posts.nodes.length; i++) {
+        title.push(run.data.posts.nodes[i].title);        
+    }
+    return await title;
+}
+
+async function listPosts() {
+    const run = await postData();            
+    const posts = [];
+    for(let i = 0; i < run.data.posts.nodes.length; i++) {
+        let post = "Id поста: " + run.data.posts.nodes[i].id 
+        + ' ' 
+        + "Дата создания: " + run.data.posts.nodes[i].date;			
+        posts.push(post)    
+    }        
+    return await posts;
+}
 
 
+async function tableCreate() {
+    const title = await listTitle(); 
+    let body = document.body,
+    tbl  = document.createElement( 'table' );
+        for( let i = 0; i < title.length; i++ ) {
+            let tr = tbl.insertRow();
+            let td = tr.insertCell();
+        
+            td.appendChild(document.createTextNode( title[i] ));
+            td.setAttribute( 'id', 't'+i );
+            td.addEventListener
+                ("click", () => {clickTitle( i )}, false);       
+        }
+    body.appendChild(tbl);
+}
+
+tableCreate();
+
+function clickTitle(number){     
+    let divPost = document.getElementById('d'+ number);
+    (divPost.style.display=='none') ?    
+    divPost.style.display='' : 
+    divPost.style.display='none';                                    
+}
+
+async function divCreate(){
+    const title = await listTitle();
+    const posts = await listPosts();    
+        for(let i = 0; i < posts.length; i++) {
+            let line = document.getElementById('t'+ i); 
+            let dv = document.createElement("div");
+            line.appendChild( dv );      
+            dv.appendChild(document.createTextNode( posts[i] ));
+            dv.setAttribute('id', 'd'+ i);
+            elem = document.getElementById('d'+ i);
+            elem.style.display='none';        
+        }
+} 
+
+divCreate();
 
 </script> 
 </html>
