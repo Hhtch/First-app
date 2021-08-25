@@ -89,17 +89,31 @@
 
  // --------- ВТОРОЙ СПОСОБ -----------------       
  // Пример отправки POST запроса:
-async function postData(url = 'https://diesewelt.online/graphql', data = {
-    query: `
-        { posts(where: {status: PUBLISH, dateQuery: {year: 2021}}, first: 1000) {
-            nodes {
-                id
-                title
-                date
-        }   }   }`    
-    }) {
-    // Default options are marked with *
+function searchQuery(postsEndCursor = null) {
+    return {
+        query: ` query($postsEndCursor: String){
+            posts(first: 100, after: $postsEndCursor ) {
+                nodes {
+                    id
+                    date
+                    title
+                }
+                pageInfo {
+                    hasNextPage
+                    endCursor
+                }
+            }
+        }`,
+        variable: {
+            "postsEndCursor": postsEndCursor,      
+        },
+    };
+}
 
+
+async function postData(postsEndCursor) {
+    // Default options are marked with *
+    const url = 'https://diesewelt.online/graphql';       
     const response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -111,11 +125,47 @@ async function postData(url = 'https://diesewelt.online/graphql', data = {
         },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-    });  
-    return await response.json();               
+        body:  JSON.stringify(searchQuery(postsEndCursor))
+ /*           .then ( { 
+                function(response, request) {
+                    console.log(response.body.data.posts.pageInfo.endCursor);
+                        if (response.body.data.posts.pageInfo.hasNextPage) {
+                        return queryServer(response.body.data.posts.pageInfo.endCursor);
+                        }
+                } 
+                }),*/   
+    }); 
+    return await response.json()
 }
-
+async function aaa(){
+    a1 = await postData();
+    console.log(a1);
+    a2 = a1.data.posts.pageInfo.endCursor;
+    console.log(a2);         
+    if (a1.data.posts.pageInfo.hasNextPage) {
+        return  postData( postsEndCursor = a2 );
+        }; 
+}
+aaa();
+/*       
+        a1 = await 
+        a2 = a1.data.posts.pageInfo.endCursor,             
+        if (a1.data.posts.pageInfo.hasNextPage) {
+            return postData( url = 'https://diesewelt.online/graphql',
+                   searchQuery(postsEndCursor = a2));
+        }; 
+} */
+/*
+a1 = await response.json();
+    a2 = a1.data.posts.pageInfo.endCursor;
+    console.log(a2)
+    if (a1.data.posts.pageInfo.hasNextPage) {
+        return await postData( url, searchQuery(postsEndCursor = a2));
+      }
+          
+//   return await response.json();               
+*/
+/*
 async function listTitle() {
     const run = await postData();
     const title = [];   
@@ -178,6 +228,6 @@ async function divCreate(){
 } 
 
 divCreate();
-
+*/
 </script> 
 </html>
