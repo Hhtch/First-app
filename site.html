@@ -14,7 +14,7 @@
     td {
         border: 1px solid black;
         width: 500px;
-        height: 50px;
+        height: 70px;
         text-align: center;
     }       
     </style>    
@@ -89,10 +89,10 @@
 
  // --------- ВТОРОЙ СПОСОБ -----------------       
  // Пример отправки POST запроса:
-function searchQuery(postsEndCursor = null) {
-    return {
-        query: ` query($postsEndCursor: String){
-            posts(first: 100, after: $postsEndCursor ) {
+function searchQuery(postsEndCursor = null ) {
+    return     {
+        "query": `query MyQuery ( $postsEndCursor: String ) {
+            posts(first: 1000, after: $postsEndCursor) {
                 nodes {
                     id
                     date
@@ -103,18 +103,15 @@ function searchQuery(postsEndCursor = null) {
                     endCursor
                 }
             }
-        }`,
-        variable: {
-            "postsEndCursor": postsEndCursor,      
-        },
+        } `,
+        "variables": { "postsEndCursor": postsEndCursor },
     };
 }
-
 
 async function postData(postsEndCursor) {
     // Default options are marked with *
     const url = 'https://diesewelt.online/graphql';       
-    const response = await fetch(url, {
+    let response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -126,62 +123,41 @@ async function postData(postsEndCursor) {
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *client
         body:  JSON.stringify(searchQuery(postsEndCursor))
- /*           .then ( { 
-                function(response, request) {
-                    console.log(response.body.data.posts.pageInfo.endCursor);
-                        if (response.body.data.posts.pageInfo.hasNextPage) {
-                        return queryServer(response.body.data.posts.pageInfo.endCursor);
-                        }
-                } 
-                }),*/   
     }); 
-    return await response.json()
+    return await response.json();
 }
-async function aaa(){
-    a1 = await postData();
-    console.log(a1);
-    a2 = a1.data.posts.pageInfo.endCursor;
-    console.log(a2);         
-    if (a1.data.posts.pageInfo.hasNextPage) {
-        return  postData( postsEndCursor = a2 );
-        }; 
+async function getResult(){
+    let result = await postData();
+    let sumResult  = [];
+    let newResult; 
+    let postsEndCursor = null;
+    do {
+        result = await postData( postsEndCursor );
+        postsEndCursor = await result.data.posts.pageInfo.endCursor;
+        newResult = await  result.data.posts.nodes;
+        sumResult = await sumResult.concat( newResult );
+     } while (
+         result.data.posts.pageInfo.hasNextPage
+     );
+    return sumResult
 }
-aaa();
-/*       
-        a1 = await 
-        a2 = a1.data.posts.pageInfo.endCursor,             
-        if (a1.data.posts.pageInfo.hasNextPage) {
-            return postData( url = 'https://diesewelt.online/graphql',
-                   searchQuery(postsEndCursor = a2));
-        }; 
-} */
-/*
-a1 = await response.json();
-    a2 = a1.data.posts.pageInfo.endCursor;
-    console.log(a2)
-    if (a1.data.posts.pageInfo.hasNextPage) {
-        return await postData( url, searchQuery(postsEndCursor = a2));
-      }
-          
-//   return await response.json();               
-*/
-/*
+
 async function listTitle() {
-    const run = await postData();
+    const run = await getResult();
     const title = [];   
-    for(let i = 0; i < run.data.posts.nodes.length; i++) {
-        title.push(run.data.posts.nodes[i].title);        
+    for(let i = 0; i < run.length; i++) {
+        title.push(run[i].title);        
     }
     return await title;
 }
 
 async function listPosts() {
-    const run = await postData();            
+    const run = await getResult();            
     const posts = [];
-    for(let i = 0; i < run.data.posts.nodes.length; i++) {
-        let post = "Id поста: " + run.data.posts.nodes[i].id 
+    for(let i = 0; i < run.length; i++) {
+        let post = "Id поста: " + run[i].id 
         + ' ' 
-        + "Дата создания: " + run.data.posts.nodes[i].date;			
+        + "Дата создания: " + run[i].date;			
         posts.push(post)    
     }        
     return await posts;
@@ -228,6 +204,6 @@ async function divCreate(){
 } 
 
 divCreate();
-*/
+
 </script> 
 </html>
